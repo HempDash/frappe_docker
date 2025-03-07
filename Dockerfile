@@ -22,8 +22,17 @@ ENV FRAPPE_SITE_NAME_HEADER=erp.gethempdash.com \
     CLIENT_MAX_BODY_SIZE=50m \
     SITES=`erp.gethempdash.com`
 
-# Expose the default ERPNext port (Gunicorn typically listens on 8000)
+# Copy repository files into the image
+COPY . /app
+
+# Set working directory
+WORKDIR /app
+
+# Ensure the Procfile is readable by all (permissions 644)
+RUN chmod 644 Procfile
+
+# Expose the ERPNext port (Gunicorn listens on 8000)
 EXPOSE 8000
 
-# Start ERPNext using bench. The official image is set up to manage multiple processes.
+# Start ERPNext using bench start
 CMD ["bench", "start"]
